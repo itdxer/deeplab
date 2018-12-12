@@ -68,7 +68,7 @@ def read_data(filepath):
     return images, annotations
 
 
-def find_pads(difference):
+def find_missing_borders_along_dimension(difference):
     half_difference = int(difference // 2)
 
     if difference % 2 == 0:
@@ -77,17 +77,17 @@ def find_pads(difference):
     return (half_difference, half_difference + 1)
 
 
-def pad_values(image, size, value):
+def add_zero_paddings(image, size):
     in_height, in_width, _ = image.shape
 
     return np.pad(
         image, [
-            find_pads(size - in_height),
-            find_pads(size - in_width),
+            find_missing_borders_along_dimension(size - in_height),
+            find_missing_borders_along_dimension(size - in_width),
             (0, 0),  # no padding for channels
         ],
         mode='constant',
-        constant_values=value,
+        constant_values=0,
     )
 
 
@@ -95,11 +95,11 @@ def crop_image(image, size):
     in_height, in_width, _ = image.shape
 
     if in_height > size:
-        left_diff, right_diff = find_pads(in_height - size)
+        left_diff, right_diff = find_missing_borders_along_dimension(in_height - size)
         image = image[left_diff:in_height - right_diff, :, :]
 
     if in_width > size:
-        top_diff, bottom_diff = find_pads(in_width - size)
+        top_diff, bottom_diff = find_missing_borders_along_dimension(in_width - size)
         image = image[:, top_diff:in_width - bottom_diff, :]
 
     return image
@@ -136,9 +136,13 @@ def make_annotation_one_hot_encoded(annotation_2d):
 
 
 def subtract_channel_mean(image):
+    if image.ndim != 3:
+        raise ValueError("Input image has to be 3-dimensional")
+
     image = image.astype(np.float32)
     # Per channel normalization, input BGR
     image[:, :, 2] -= 123.68
     image[:, :, 1] -= 116.78
     image[:, :, 0] -= 103.94
+
     return image

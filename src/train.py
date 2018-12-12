@@ -7,7 +7,7 @@ from imgaug import augmenters as iaa
 from neupy import algorithms, storage
 
 from data import (
-    read_data, subtract_channel_mean, crop_image, pad_values,
+    read_data, subtract_channel_mean, crop_image, add_zero_paddings,
     make_annotation_one_hot_encoded, TRAIN_SET, VALIDATION_SET
 )
 from model import create_deeplab_model, download_resnet50_weights
@@ -63,13 +63,13 @@ def create_data_iterator(datapath, crop_size, batch_size, use_augmentation=True)
                     annotation = flip_det.augment_image(annotation)
 
                 image = crop_image(image, crop_size)
-                image = pad_values(image, crop_size, value=0)
+                image = add_zero_paddings(image, crop_size)
                 image = subtract_channel_mean(image)
 
                 # crop image function assumes that input has channel
                 annotation = crop_image(np.expand_dims(annotation, axis=2), crop_size)[:, :, 0]
                 annotation = make_annotation_one_hot_encoded(annotation)
-                annotation = pad_values(annotation, crop_size, value=0)
+                annotation = add_zero_paddings(annotation, crop_size)
 
                 image_batch.append(image)
                 annotation_batch.append(annotation)
