@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 
-from data import voc_classes
+from src.data import voc_classes
 
 
 def download_file(url, filepath, description=''):
@@ -25,10 +25,12 @@ def download_file(url, filepath, description=''):
 
 
 def reverse_indeces(image):
-    image = image[0]
-    image = image.argmax(axis=-1)
+    if image.ndim == 4:
+        image = image[0]
 
+    image = image.argmax(axis=-1)
     index2color = np.array([class_.color for class_ in voc_classes])
+
     return index2color[image.astype(int)]
 
 

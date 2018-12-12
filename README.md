@@ -23,3 +23,11 @@ Use one of the stored deeplab models in order to assess network's performance on
 ```
 python -i src/validate.py --deeplab-weights storage/dump.hdf5
 ```
+
+
+### Running tests
+
+```
+$ pip install pytest
+$ pytest
+```
