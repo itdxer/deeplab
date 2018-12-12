@@ -3,17 +3,13 @@ import sys
 import os.path
 from collections import namedtuple
 
-# This code allows to make imagenet_tools visible in the deeplab project
-previous_dir = os.path.join(os.path.dirname(__file__), os.path.pardir)
-sys.path.append(os.path.abspath(previous_dir))
-
 import cv2
 import numpy as np
 from tqdm import tqdm
 
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
-BASEPATH = os.path.join(CURRENT_DIR, "dataset", "VOCdevkit", "VOC2012")
+BASEPATH = os.path.join(CURRENT_DIR, "..", "dataset", "VOCdevkit", "VOC2012")
 
 IMAGESETS = os.path.join(BASEPATH, "ImageSets", "Segmentation")
 IMAGES = os.path.join(BASEPATH, "JPEGImages")

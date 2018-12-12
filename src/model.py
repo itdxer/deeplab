@@ -11,7 +11,7 @@ from utils import download_file
 
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
-RESNET50_WEIGHTS_FILE = os.path.join(CURRENT_DIR, 'models', 'resnet50.hdf5')
+RESNET50_WEIGHTS_FILE = os.path.join(CURRENT_DIR, '..', 'models', 'resnet50.hdf5')
 RESNET50_WEIGHTS_URL = "http://neupy.s3.amazonaws.com/tensorflow/imagenet-models/resnet50.hdf5"
 
 

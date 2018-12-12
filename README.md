@@ -12,7 +12,7 @@
 Traing the model and save partial progress into the `storage` folder.
 
 ```
-python -i examples/cnn/deeplab/train.py --storage-folder storage
+python -i src/train.py --storage-folder storage --image-size 321 --batch-size 20
 ```
 
 
@@ -21,5 +21,5 @@ python -i examples/cnn/deeplab/train.py --storage-folder storage
 Use one of the stored deeplab models in order to assess network's performance on the validation dataset.
 
 ```
-python -i examples/cnn/deeplab/validate.py --deeplab-weights storage/dump.hdf5
+python -i src/validate.py --deeplab-weights storage/dump.hdf5
 ```
